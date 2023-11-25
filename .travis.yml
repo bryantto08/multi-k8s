@@ -9,7 +9,15 @@ scripts:
   - docker run -e CI=true bryantto08/client-test npm test
 
 after_success:
+  # Build the images of our services
   - docker build -t bryantto08/multi-client ./client
   - docker build -t bryantto08/multi-nginx ./nginx
   - docker build -t bryantto08/multi-server ./server
   - docker build -t bryantto08/multi-worker ./worker
+  # login to docker cli
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # push the images to docker hub
+  - docker push bryantto08/multi-client
+  - docker push bryantto08/multi-nginx
+  - docker push bryantto08/multi-server
+  - docker push bryantto08/multi-worker
