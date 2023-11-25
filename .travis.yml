@@ -1,0 +1,15 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t bryantto08/client-test -f ./client/Dockerfile.dev ./client
+
+scripts:
+  - docker run -e CI=true bryantto08/client-test npm test
+
+after_success:
+  - docker build -t bryantto08/multi-client ./client
+  - docker build -t bryantto08/multi-nginx ./nginx
+  - docker build -t bryantto08/multi-server ./server
+  - docker build -t bryantto08/multi-worker ./worker
