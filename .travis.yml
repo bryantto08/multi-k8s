@@ -21,3 +21,15 @@ after_success:
   - docker push bryantto08/multi-nginx
   - docker push bryantto08/multi-server
   - docker push bryantto08/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: 'us-east-1'
+  app: 'udemy-multi-docker-app'
+  env: 'Udemy-multi-docker-app-env'
+  bucket_name: 'elasticbeanstalk-us-east-1-088690727807'
+  bucket_path: 'docker-multi'
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
